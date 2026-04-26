@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Briefing de Projeto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0e0e0e;
+      --paper: #f5f2ee;
+      --accent: #b5882b;
+      --accent-light: #e8d5a3;
+      --muted: #7a7469;
+      --border: #d9d3c9;
+      --white: #ffffff;
+      --error: #c0392b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────── */
+    .hero {
+      background-color: var(--ink);
+      color: var(--white);
+      padding: 72px 40px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 40px,
+          rgba(181,136,43,0.04) 40px,
+          rgba(181,136,43,0.04) 41px
+        );
+    }
+
+    .hero-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(44px, 7vw, 80px);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      margin-top: 20px;
+      max-width: 480px;
+      margin-inline: auto;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    .hero-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      margin: 28px auto 0;
+      position: relative;
+    }
+
+    /* ── PROGRESS BAR ───────────────────────────────────── */
+    .progress-wrap {
+      background: var(--ink);
+      padding: 0 40px 24px;
+    }
+
+    .progress-track {
+      max-width: 720px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.1);
+      height: 2px;
+      border-radius: 99px;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 99px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .progress-label {
+      color: rgba(255,255,255,0.4);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      max-width: 720px;
+      margin-inline: auto;
+    }
+
+    /* ── FORM CONTAINER ─────────────────────────────────── */
+    .form-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    /* ── SECTIONS ───────────────────────────────────────── */
+    .section {
+      margin-bottom: 56px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .section:nth-child(1)  { animation-delay: 0.1s; }
+    .section:nth-child(2)  { animation-delay: 0.2s; }
+    .section:nth-child(3)  { animation-delay: 0.3s; }
+    .section:nth-child(4)  { animation-delay: 0.4s; }
+    .section:nth-child(5)  { animation-delay: 0.5s; }
+    .section:nth-child(6)  { animation-delay: 0.6s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--accent);
+      line-height: 1;
+      min-width: 28px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    /* ── FIELD GROUPS ───────────────────────────────────── */
+    .field-row {
+      display: grid;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .field-row.cols-2 { grid-template-columns: 1fr 1fr; }
+
+    @media (max-width: 580px) {
+      .field-row.cols-2 { grid-template-columns: 1fr; }
+    }
+
+    /* ── INDIVIDUAL FIELDS ──────────────────────────────── */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    label .req {
+      color: var(--accent);
+      margin-left: 2px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(181,136,43,0.12);
+    }
+
+    input.error,
+    select.error,
+    textarea.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .field-error {
+      font-size: 12px;
+      color: var(--error);
+      display: none;
+    }
+
+    .field-error.show { display: block; }
+
+    textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+
+    select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7469' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
+
+    /* ── CHECKBOXES / RADIOS ────────────────────────────── */
+    .check-group, .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .check-item, .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .check-item input[type="checkbox"],
+    .radio-item input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .check-item span, .radio-item span {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink);
+    }
+
+    /* ── SCALE SLIDER ───────────────────────────────────── */
+    .scale-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      height: 4px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      padding: 0;
+      box-shadow: none;
+    }
+
+    input[type="range"]:focus { box-shadow: none; border: none; }
+
+    .scale-value {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* ── COLOR SWATCHES ─────────────────────────────────── */
+    .color-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .color-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .color-item input[type="checkbox"] {
+      display: none;
+    }
+
+    .color-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .color-item input:checked + .color-swatch {
+      border-color: var(--ink);
+      transform: scale(1.15);
+    }
+
+    .color-label {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* ── FILE UPLOAD ────────────────────────────────────── */
+    .file-drop {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .file-drop:hover {
+      border-color: var(--accent);
+      background: rgba(181,136,43,0.04);
+    }
+
+    .file-drop-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+    .file-drop-text { font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .file-drop-text strong { color: var(--accent); }
+
+    /* ── SUBMIT BUTTON ──────────────────────────────────── */
+    .submit-area {
+      text-align: center;
+      padding-top: 16px;
+    }
+
+    .submit-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .submit-note {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .submit-note svg { flex-shrink: 0; }
+
+    .btn-submit {
+      background: var(--ink);
+      color: var(--white);
+      border: none;
+      padding: 16px 52px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-submit:hover::after { transform: scaleX(1); }
+    .btn-submit span { position: relative; z-index: 1; }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* ── SUCCESS STATE ──────────────────────────────────── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 80px 24px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .success-screen.show { display: block; }
+    .form-body.hidden { display: none; }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(181,136,43,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .success-screen h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+
+    .success-screen p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── CLOSING MESSAGE ────────────────────────────────── */
+    .closing-message {
+      margin: 0 0 40px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease 0.65s forwards;
+    }
+
+    .closing-inner {
+      background: var(--ink);
+      color: var(--white);
+      border-radius: 10px;
+      padding: 32px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .closing-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 40px,
+        rgba(181,136,43,0.05) 40px, rgba(181,136,43,0.05) 41px
+      );
+    }
+
+    .closing-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(181,136,43,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .closing-inner p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.8);
+      position: relative;
+    }
+
+    .closing-sig {
+      margin-top: 20px !important;
+      font-family: 'Cormorant Garamond', serif !important;
+      font-size: 20px !important;
+      font-style: italic;
+      color: var(--accent) !important;
+    }
+
+    .closing-sig strong { font-weight: 600; }
+
+    /* ── HONEYPOT ───────────────────────────────────────── */
+    .hp { display: none !important; }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      padding: 24px 20px;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .hero { padding: 52px 24px 44px; }
+      .progress-wrap { padding: 0 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ░░ HERO ░░ -->
+<header class="hero">
+  <p class="hero-label">Formulário de Projeto</p>
+  <h1>Briefing <em>Criativo</em></h1>
+  <p class="hero-sub">Preencha com atenção — cada detalhe me ajuda a criar algo excepcional para você.</p>
+  <div class="hero-rule"></div>
+</header>
+
+<!-- ░░ PROGRESS ░░ -->
+<div class="progress-wrap">
+  <p class="progress-label" id="progressLabel">0 de 6 seções</p>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- ░░ MAIN FORM ░░ -->
+<main class="form-wrap">
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+        <path d="M5 13l4 4L19 7" stroke="#b5882b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Briefing Enviado!</h2>
+    <p>Recebi suas informações com sucesso. Em breve entrarei em contato para dar início ao seu projeto.</p>
+  </div>
+
+  <div class="form-body" id="formBody">
+  <form id="briefingForm" novalidate>
+
+    <!-- Web3Forms -->
+    <input type="hidden" name="access_key" value="ef4c7522-2c9f-4cee-86f5-bd23e4af53f2" id="w3fKey" />
+    <input type="hidden" name="subject" value="📋 Novo Briefing de Projeto Recebido" />
+    <input type="hidden" name="from_name" value="Formulário de Briefing" />
+    <!-- Honeypot antispam -->
+    <input type="text" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+
+    <!-- ══════════════════════════════════════
+         SEÇÃO 1 — INFORMAÇÕES DO CLIENTE
+    ══════════════════════════════════════ -->
+    <section class="section" data-section="1">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Informações do Cliente</h2>
+      </div>
+
+      <div class="field-row cols-2">
+        <div class="field">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="Nome Completo" placeholder="Seu nome" />
+        </div>
+        <div class="field">
+          <label for="empresa">Empresa / Marca</label>
+          <input type="text" id="empresa" name="Empresa ou Marca" placeholder="Nome da empresa" />
+        </div>
+      </div>
+
+      <div class="field-row cols-2">
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="E-mail de Contato" placeholder="seuemail@exemplo.com" />
+        </div>
+        <div class="field">
+          <label for="telefone">WhatsApp / Telefone</label>
+          <input type="tel" id="telefone" name="Telefone ou WhatsApp" placeholder="(00) 00000-0000" />
+        </div>
+      </div>
+
+      <div class="field-row cols-2">
+        <div class="field">
+          <label for="segmento">Segmento / Setor <span class="req">*</span></label>
+          <select id="segmento" name="Segmento de Atuação" required>
+            <option value="" disabled selected>Selecione…</option>
+            <option>Moda & Lifestyle</option>
+            <option>Alimentação & Gastronomia</option>
+            <option>Saúde & Bem-estar</option>
+            <option>Tecnologia</option>
+            <option>Educação</option>
+            <option>Beleza & Estética</option>
+            <option>Imóveis & Construção</option>
+            <option>Consultoria & Serviços</option>
+            <option>Cultura & Arte</option>
+            <option>Varejo / E-commerce</option>
+            <option>Outro</option>
+          </select>
+          <span class="field-error" id="err-segmento">Selecione um segmento.</span>
+        </div>
+        <div class="field">
+          <label for="website">Website / Rede Social</label>
+          <input type="url" id="website" name="Website ou Rede Social" placeholder="https://seusite.com.br" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SEÇÃO 2 — SOBRE O PROJETO
+    ══════════════════════════════════════ -->
+    <section class="section" data-section="2">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Sobre o Projeto</h2>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Tipo de serviço desejado <span class="req">*</span></label>
+          <div class="check-group">
+            <label class="check-item"><input type="checkbox" name="Tipo de Serviço" value="Identidade Visual" /><span>Identidade Visual</span></label>
+            <label class="check-item"><input type="checkbox" name="Tipo de Serviço" value="Logotipo" /><span>Logotipo</span></label>
+            <label class="check-item"><input type="checkbox" name="Tipo de Serviço" value="Material Impresso" /><span>Material Impresso</span></label>
+            <label class="check-item"><input type="checkbox" name="Tipo de Serviço" value="Design para Redes Sociais" /><span>Redes Sociais</span></label>
+            <label class="check-item"><input type="checkbox" name="Tipo de Serviço" value="Embalagem" /><span>Embalagem</span></label>
+            <label class="check-item"><input type="checkbox" name="Tipo de Serviço" value="Website" /><span>Website</span></label>
+            <label class="check-item"><input type="checkbox" name="Tipo de Serviço" value="Motion / Animação" /><span>Motion / Animação</span></label>
+            <label class="check-item"><input type="checkbox" name="Tipo de Serviço" value="Outro" /><span>Outro</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="objetivo">Qual é o objetivo principal do projeto? <span class="req">*</span></label>
+          <textarea id="objetivo" name="Objetivo Principal do Projeto" placeholder="Descreva o que você espera alcançar com este projeto…" required></textarea>
+          <span class="field-error" id="err-objetivo">Descreva o objetivo do projeto.</span>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="problema">Qual problema este projeto resolve?</label>
+          <textarea id="problema" name="Problema que o Projeto Resolve" placeholder="Ex.: minha marca não transmite credibilidade, quero atrair um público mais jovem…"></textarea>
+        </div>
+      </div>
+
+      <div class="field-row cols-2">
+        <div class="field">
+          <label for="prazo">Prazo desejado <span class="req">*</span></label>
+          <select id="prazo" name="Prazo Desejado" required>
+            <option value="" disabled selected>Selecione…</option>
+            <option>Urgente (até 7 dias)</option>
+            <option>Curto prazo (até 15 dias)</option>
+            <option>Médio prazo (até 30 dias)</option>
+            <option>Longo prazo (mais de 30 dias)</option>
+            <option>Sem prazo definido</option>
+          </select>
+          <span class="field-error" id="err-prazo">Selecione um prazo.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SEÇÃO 3 — PÚBLICO-ALVO
+    ══════════════════════════════════════ -->
+    <section class="section" data-section="3">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Público-Alvo</h2>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="publico">Descreva seu público-alvo ideal <span class="req">*</span></label>
+          <textarea id="publico" name="Descrição do Público-Alvo" placeholder="Idade, gênero, interesses, poder aquisitivo, comportamentos…" required></textarea>
+          <span class="field-error" id="err-publico">Descreva seu público-alvo.</span>
+        </div>
+      </div>
+
+      <div class="field-row cols-2">
+        <div class="field">
+          <label for="faixaEtaria">Faixa etária predominante</label>
+          <select id="faixaEtaria" name="Faixa Etária do Público">
+            <option value="" disabled selected>Selecione…</option>
+            <option>Crianças (até 12 anos)</option>
+            <option>Adolescentes (13–17 anos)</option>
+            <option>Jovens adultos (18–30 anos)</option>
+            <option>Adultos (31–50 anos)</option>
+            <option>Maturidade (51+ anos)</option>
+            <option>Todas as faixas</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="generoPublico">Gênero predominante</label>
+          <select id="generoPublico" name="Gênero Predominante do Público">
+            <option value="" disabled selected>Selecione…</option>
+            <option>Masculino</option>
+            <option>Feminino</option>
+            <option>Todos os gêneros</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="concorrentes">Principais concorrentes</label>
+          <input type="text" id="concorrentes" name="Concorrentes Principais" placeholder="Nomes, sites ou redes sociais dos concorrentes…" />
+          <p class="field-hint">Cite os principais concorrentes diretos e o que você admira ou não gosta neles.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SEÇÃO 4 — IDENTIDADE & ESTÉTICA
+    ══════════════════════════════════════ -->
+    <section class="section" data-section="4">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Identidade & Estética</h2>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Palavras que melhor representam sua marca</label>
+          <input type="text" name="Palavras-chave da Marca" placeholder="Ex.: moderno, acolhedor, ousado, minimalista, sofisticado…" />
+          <p class="field-hint">Separe por vírgulas — até 5 palavras.</p>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Paleta de cores preferida</label>
+          <div class="color-grid" id="colorGrid">
+            <!-- Montado via JS -->
+          </div>
+          <input type="hidden" name="Cores Preferidas" id="coresPreferidas" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="coresEvitar">Cores a evitar</label>
+          <input type="text" id="coresEvitar" name="Cores a Evitar" placeholder="Ex.: vermelho, amarelo berrante…" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Flexibilidade na paleta de cores</label>
+          <p class="field-hint" style="margin-bottom:8px">Poderei sugerir algo diferente, caso eu entenda que a paleta indicada não esteja muito alinhada ao público-alvo ou ao segmento?</p>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="Flexibilidade na Paleta de Cores" value="Sim" /><span>Sim</span></label>
+            <label class="radio-item"><input type="radio" name="Flexibilidade na Paleta de Cores" value="Não" /><span>Não</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Tom de comunicação desejado</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="Tom de Comunicação" value="Formal e profissional" /><span>Formal e profissional</span></label>
+            <label class="radio-item"><input type="radio" name="Tom de Comunicação" value="Descontraído e jovem" /><span>Descontraído e jovem</span></label>
+            <label class="radio-item"><input type="radio" name="Tom de Comunicação" value="Elegante e sofisticado" /><span>Elegante e sofisticado</span></label>
+            <label class="radio-item"><input type="radio" name="Tom de Comunicação" value="Criativo e inovador" /><span>Criativo e inovador</span></label>
+            <label class="radio-item"><input type="radio" name="Tom de Comunicação" value="Acolhedor e empático" /><span>Acolhedor e empático</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="referencias">Referências visuais / inspirações</label>
+          <textarea id="referencias" name="Referências Visuais e Inspirações" placeholder="Links de sites, marcas, posts ou uma descrição do estilo visual que você admira…"></textarea>        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="naoGosta">O que definitivamente NÃO quer no projeto?</label>
+          <textarea id="naoGosta" name="O Que Não Quer no Projeto" placeholder="Estilos, elementos, fontes ou abordagens que devem ser evitados…"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SEÇÃO 5 — MATERIAIS & ENTREGAS
+    ══════════════════════════════════════ -->
+    <section class="section" data-section="5">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2 class="section-title">Materiais & Entregas</h2>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Você já possui algum material de marca?</label>
+          <div class="check-group">
+            <label class="check-item"><input type="checkbox" name="Materiais Existentes" value="Logo existente" /><span>Logotipo existente</span></label>
+            <label class="check-item"><input type="checkbox" name="Materiais Existentes" value="Manual de marca" /><span>Manual de marca</span></label>
+            <label class="check-item"><input type="checkbox" name="Materiais Existentes" value="Paleta de cores definida" /><span>Paleta definida</span></label>
+            <label class="check-item"><input type="checkbox" name="Materiais Existentes" value="Tipografia definida" /><span>Tipografia definida</span></label>
+            <label class="check-item"><input type="checkbox" name="Materiais Existentes" value="Não possuo nenhum" /><span>Não possuo nenhum</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="plataformas">Plataformas de uso principal</label>
+          <input type="text" id="plataformas" name="Plataformas de Uso" placeholder="Ex.: Instagram, LinkedIn, site, impresso, embalagem física…" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Nível de urgência subjetiva</label>
+          <div class="scale-wrap">
+            <div class="scale-labels">
+              <span>Sem pressa</span>
+              <span>Urgentíssimo</span>
+            </div>
+            <input type="range" min="1" max="10" value="5" id="urgencia"
+                   name="Nível de Urgência (1–10)"
+                   oninput="document.getElementById('urgValue').textContent = this.value" />
+            <div class="scale-value" id="urgValue">5</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SEÇÃO 6 — INFORMAÇÕES ADICIONAIS
+    ══════════════════════════════════════ -->
+    <section class="section" data-section="6">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2 class="section-title">Informações Adicionais</h2>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="historia">Conte a história da sua marca / empresa</label>
+          <textarea id="historia" name="História da Marca" placeholder="Como surgiu? Qual é o propósito? O que te motivou a criar?"></textarea>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="diferenciais">Quais são seus principais diferenciais?</label>
+          <textarea id="diferenciais" name="Diferenciais da Marca" placeholder="O que torna você ou sua empresa únicos em relação à concorrência?"></textarea>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="observacoes">Observações finais</label>
+          <textarea id="observacoes" name="Observações Finais" placeholder="Qualquer detalhe extra que considere relevante para o projeto…"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         MENSAGEM DE ENCERRAMENTO
+    ══════════════════════════════════════ -->
+    <div class="closing-message">
+      <div class="closing-inner">
+        <div class="closing-icon">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" stroke="#b5882b" stroke-width="1.5"/>
+            <path d="M12 8v4l3 3" stroke="#b5882b" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p>Chegamos ao fim do questionário de briefing. Agora é comigo! Em breve retornarei com uma proposta para aprovação. Se tiver mais alguma informação que considera relevante e que não constou aqui, pode me enviar por e-mail ou WhatsApp. Qualquer dúvida estou à disposição. Em breve, entrarei em contato pelo telefone ou e-mail informados.</p>
+        <p class="closing-sig">Até logo! <strong>Renato Fernandes</strong></p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SUBMIT
+    ══════════════════════════════════════ -->
+    <div class="submit-area">
+      <div class="submit-wrap">
+        <p class="submit-note">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="2" stroke="#7a7469" stroke-width="1.5"/>
+            <path d="M7 11V7a5 5 0 0110 0v4" stroke="#7a7469" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Suas informações são transmitidas com segurança e tratadas com total sigilo.
+        </p>
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span>Enviar Briefing</span>
+        </button>
+      </div>
+    </div>
+
+  </form>
+  </div><!-- /form-body -->
+
+</main>
+
+<footer>
+  &copy; <span id="footerYear"></span> Renato Fernandes &mdash; Formulário de Briefing &mdash; Todos os direitos reservados
+</footer>
+
+<script>
+  // ── Ano no footer ────────────────────────────────────────
+  document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+  // ── Ano no footer ────────────────────────────────────────
+  document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+  // ── Paleta de cores ──────────────────────────────────────
+  const palette = [
+    { hex: '#000000', name: 'Preto' },
+    { hex: '#FFFFFF', name: 'Branco', border: '#d0ccc7' },
+    { hex: '#6B4C3B', name: 'Marrom' },
+    { hex: '#B5882B', name: 'Dourado' },
+    { hex: '#E8C97A', name: 'Champanhe' },
+    { hex: '#2C4A7C', name: 'Azul' },
+    { hex: '#4A90D9', name: 'Azul Claro' },
+    { hex: '#1A7A4A', name: 'Verde' },
+    { hex: '#7EBF72', name: 'Verde Claro' },
+    { hex: '#C0392B', name: 'Vermelho' },
+    { hex: '#E8735A', name: 'Salmão' },
+    { hex: '#9B59B6', name: 'Roxo' },
+    { hex: '#F39C12', name: 'Laranja' },
+    { hex: '#F5F2EE', name: 'Bege', border: '#d0ccc7' },
+    { hex: '#5D6D7E', name: 'Cinza' },
+  ];
+
+  const grid = document.getElementById('colorGrid');
+  const coresInput = document.getElementById('coresPreferidas');
+
+  palette.forEach(c => {
+    const wrap = document.createElement('label');
+    wrap.className = 'color-item';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = c.name;
+    cb.addEventListener('change', () => {
+      const sel = [...grid.querySelectorAll('input:checked')].map(i => i.value);
+      coresInput.value = sel.join(', ');
+    });
+    const swatch = document.createElement('div');
+    swatch.className = 'color-swatch';
+    swatch.style.background = c.hex;
+    if (c.border) swatch.style.boxShadow = `0 0 0 1px ${c.border} inset`;
+    const lbl = document.createElement('span');
+    lbl.className = 'color-label';
+    lbl.textContent = c.name;
+    wrap.append(cb, swatch, lbl);
+    grid.append(wrap);
+  });
+
+  // ── Progress bar ─────────────────────────────────────────
+  const totalSections = 6;
+
+  function updateProgress() {
+    const sections = document.querySelectorAll('.section');
+    let filled = 0;
+    sections.forEach(sec => {
+      const inputs = sec.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), select, textarea');
+      let hasValue = false;
+      inputs.forEach(i => { if (i.value.trim()) hasValue = true; });
+      const checks = sec.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked');
+      if (hasValue || checks.length > 0) filled++;
+    });
+    const pct = Math.round((filled / totalSections) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `${filled} de ${totalSections} seções preenchidas`;
+  }
+
+  document.getElementById('briefingForm').addEventListener('input', updateProgress);
+  document.getElementById('briefingForm').addEventListener('change', updateProgress);
+
+  // ── Validação ────────────────────────────────────────────
+  function validateForm() {
+    let valid = true;
+    const required = [
+      { id: 'segmento', err: 'err-segmento', check: v => v !== '' },
+      { id: 'objetivo', err: 'err-objetivo', check: v => v.trim().length > 5 },
+      { id: 'prazo',    err: 'err-prazo',    check: v => v !== '' },
+      { id: 'publico',  err: 'err-publico',  check: v => v.trim().length > 5 },
+    ];
+    required.forEach(r => {
+      const el = document.getElementById(r.id);
+      const errEl = document.getElementById(r.err);
+      if (!r.check(el.value)) {
+        valid = false;
+        el.classList.add('error');
+        errEl.classList.add('show');
+        el.addEventListener('input', () => {
+          el.classList.remove('error');
+          errEl.classList.remove('show');
+        }, { once: true });
+      }
+    });
+    return valid;
+  }
+
+  // ── Coleta todos os dados do formulário como objeto ───────
+  function collectFormData() {
+    const form = document.getElementById('briefingForm');
+    const data = {};
+
+    // Campos normais (text, email, tel, url, select, textarea, hidden)
+    form.querySelectorAll('input:not([type=checkbox]):not([type=radio]):not([type=range]), select, textarea').forEach(el => {
+      if (el.name && el.name !== 'botcheck') data[el.name] = el.value;
+    });
+
+    // Checkboxes — agrupa múltiplos pelo mesmo name
+    const cbGroups = {};
+    form.querySelectorAll('input[type=checkbox]:checked').forEach(el => {
+      if (!cbGroups[el.name]) cbGroups[el.name] = [];
+      cbGroups[el.name].push(el.value);
+    });
+    Object.entries(cbGroups).forEach(([k, v]) => { data[k] = v.join(', '); });
+
+    // Radios
+    form.querySelectorAll('input[type=radio]:checked').forEach(el => {
+      data[el.name] = el.value;
+    });
+
+    // Range
+    form.querySelectorAll('input[type=range]').forEach(el => {
+      data[el.name] = el.value;
+    });
+
+    return data;
+  }
+
+  // ── Envio via Web3Forms (funciona em file:// e em servidor) ─
+  document.getElementById('briefingForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      const firstErr = document.querySelector('.error');
+      if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.querySelector('span').textContent = 'Enviando…';
+
+    const payload = collectFormData();
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const json = await res.json();
+
+      if (json.success) {
+        document.getElementById('formBody').classList.add('hidden');
+        document.getElementById('successScreen').classList.add('show');
+        document.querySelector('.progress-wrap').style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        throw new Error(json.message || 'Erro desconhecido');
+      }
+    } catch (err) {
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Enviar Briefing';
+      alert('Não foi possível enviar o formulário. Verifique sua conexão e tente novamente.\n\nDetalhe: ' + err.message);
+    }
+  });
+</script>
+</body>
+</html>
